@@ -5,10 +5,6 @@ import random
 
 result = ''
 
-def clear():
-    global result
-    result = ''
-
 def println():
     global result
     result = result + '\n'
@@ -26,7 +22,6 @@ def doit(horizontal, vertical):
     target = 0
     result = ''
 
-    clear
     write('Amazing - Copyright by Creative Computing, Morristown, NJ')
     println()
 
