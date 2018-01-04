@@ -49,8 +49,8 @@ class TestAmazing(unittest.TestCase):
 +--+--+--+--+--+--+--+--+--+--+--+--+--+  +--+
 """
         random.seed(0)
-        amazing.doit(15, 20)
-        self.assertEqual(expected, amazing.result)
+        result = amazing.doit(15, 20)
+        self.assertEqual(expected, result)
 
     def testSeed100size4x5(self):
         expected = """Amazing - Copyright by Creative Computing, Morristown, NJ
@@ -67,6 +67,6 @@ class TestAmazing(unittest.TestCase):
 +--+--+  +--+
 """
         random.seed(102)
-        amazing.doit(4, 5)
-        self.assertEqual(expected, amazing.result)
+        result = amazing.doit(4, 5)
+        self.assertEqual(expected, result)
 

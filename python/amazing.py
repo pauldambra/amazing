@@ -3,27 +3,23 @@
 import os
 import random
 
-result = ''
 
-def println():
-    global result
-    result = result + '\n'
+def println(r):
+    return r + '\n'
 
-def write(text):
-    global result
-    result = result + text
+def write(text, r):
+    return r + text
 
 def rnd(count):
     return random.randint(1, count+1)
 
 def doit(horizontal, vertical):
 
-    global result
     target = 0
     result = ''
 
-    write('Amazing - Copyright by Creative Computing, Morristown, NJ')
-    println()
+    result = write('Amazing - Copyright by Creative Computing, Morristown, NJ', result)
+    result = println(result)
 
     h = horizontal
     v = vertical
@@ -40,13 +36,13 @@ def doit(horizontal, vertical):
     # 130:170
     for i in range(1, h+1):
         if i == x:
-            write('+  ')
+            result = write('+  ', result)
         else:
-            write('+--')
+            result = write('+--', result)
 
     # 180
-    write('+')
-    println()
+    result = write('+', result)
+    result = println(result)
 
     # 190
     c = 1
@@ -506,24 +502,25 @@ def doit(horizontal, vertical):
             target = -1
 
     for j in range(1, v+1):
-        write('|')
+        result = write('|', result)
         for i in range(1, h+1):
             if vArray[i][j] >= 2:
-                write('   ')
+                result = write('   ', result)
             else:
-                write('  |')
-        write(' ')
-        println()
+                result = write('  |', result)
+        result = write(' ', result)
+        result = println(result)
         for i in range(1, h+1):
             if vArray[i][j] == 0:
-                write('+--')
+                result = write('+--', result)
             elif vArray[i][j] == 2:
-                write('+--')
+                result = write('+--', result)
             else:
-                write('+  ')
-        write('+')
-        println()
+                result = write('+  ', result)
+        result = write('+', result)
+        result = println(result)
+    return result
 
 if __name__ == '__main__':
-    doit(int(os.getenv('cols', 10)), int(os.getenv('rows', 10)))
-    print result
+    print doit(int(os.getenv('cols', 10)), int(os.getenv('rows', 10)))
+
