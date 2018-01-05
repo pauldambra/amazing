@@ -13,6 +13,19 @@ def write(text, r):
 def rnd(count):
     return random.randint(1, count+1)
 
+
+def make_entry_line(h, x, result):
+    entry_line = result
+
+    for i in range(1, h + 1):
+        if i == x:
+            entry_line = write('+  ', entry_line)
+        else:
+            entry_line = write('+--', entry_line)
+
+    # 180
+    return write('+', entry_line)
+
 def doit(horizontal, vertical):
 
     target = 0
@@ -33,15 +46,7 @@ def doit(horizontal, vertical):
     z = 0
     x = rnd(h)
 
-    # 130:170
-    for i in range(1, h+1):
-        if i == x:
-            result = write('+  ', result)
-        else:
-            result = write('+--', result)
-
-    # 180
-    result = write('+', result)
+    result = make_entry_line(h, x, result)
     result = println(result)
 
     # 190
@@ -60,7 +65,7 @@ def doit(horizontal, vertical):
                 target = 250
             else:
                 target = 220
-        elif target == 220:
+        if target == 220:
             if s != v:
                 target = 240
             else:

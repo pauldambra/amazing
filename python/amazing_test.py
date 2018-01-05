@@ -70,3 +70,11 @@ class TestAmazing(unittest.TestCase):
         result = amazing.doit(4, 5)
         self.assertEqual(expected, result)
 
+
+#     def testSeed100size4x5(self):
+#         expected = """
+# """
+#         random.seed(0)
+#         result = amazing.doit(6, 2)
+#         self.assertEqual(expected, result)
+
