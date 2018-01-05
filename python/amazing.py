@@ -4,10 +4,6 @@ import os
 import random
 
 
-def println(r):
-    return r + '\n'
-
-
 def concat(r, text):
     return r + text
 
@@ -33,7 +29,7 @@ def add_header(s):
     s = concat(
         s,
         'Amazing - Copyright by Creative Computing, Morristown, NJ')
-    return println(s)
+    return concat(s, '\n')
 
 
 def doit(horizontal, vertical):
@@ -56,7 +52,7 @@ def doit(horizontal, vertical):
     x = rnd(h)
 
     result = make_entry_line(h, x, result)
-    result = println(result)
+    result = concat(result, '\n')
 
     # 190
     c = 1
@@ -523,7 +519,7 @@ def doit(horizontal, vertical):
             else:
                 result = concat(result, '  |')
         result = concat(result, ' ')
-        result = println(result)
+        result = concat(result, '\n')
         for i in range(1, h+1):
             if vArray[i][j] == 0:
                 result = concat(result, '+--')
@@ -532,7 +528,7 @@ def doit(horizontal, vertical):
             else:
                 result = concat(result, '+  ')
         result = concat(result, '+')
-        result = println(result)
+        result = concat(result, '\n')
     return result
 
 if __name__ == '__main__':
