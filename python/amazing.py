@@ -81,10 +81,10 @@ def doit(horizontal, vertical):
             target = 260
         elif target == 240:
             r = 1
-            s = s+1
+            s = s + 1
             target = 260
         elif target == 250:
-            r = r+1
+            r = r + 1
             target = 260
         elif target == 260:
             if wArray[r][s] == 0:
@@ -409,9 +409,9 @@ def doit(horizontal, vertical):
             wArray[r - 1][s] = c
             target = 950
         elif target == 950:
-            c = c+1
+            c = c + 1
             vArray[r - 1][s] = 2
-            r = r-1
+            r = r - 1
             target = 960
         elif target == 960:
             if c == h * v + 1:
@@ -425,11 +425,11 @@ def doit(horizontal, vertical):
             wArray[r][s - 1] = c
             target = 990
         elif target == 990:
-            c = c+1
+            c = c + 1
             target = 1000
         elif target == 1000:
             vArray[r][s - 1] = 1
-            s = s-1
+            s = s - 1
             if c == h * v + 1:
                 target = 1200
             else:
@@ -441,7 +441,7 @@ def doit(horizontal, vertical):
             wArray[r + 1][s] = c
             target = 1030
         elif target == 1030:
-            c = c+1
+            c = c + 1
             if vArray[r][s] == 0:
                 target = 1050
             else:
@@ -453,7 +453,7 @@ def doit(horizontal, vertical):
             vArray[r][s] = 2
             target = 1060
         elif target == 1060:
-            r = r+1
+            r = r + 1
             target = 1070
         elif target == 1070:
             if c == h * v + 1:
@@ -469,7 +469,7 @@ def doit(horizontal, vertical):
                 target = 1100
         elif target == 1100:
             wArray[r][s + 1] = c
-            c = c+1
+            c = c + 1
             if vArray[r][s] == 0:
                 target = 1120
             else:
@@ -481,7 +481,7 @@ def doit(horizontal, vertical):
             vArray[r][s] = 1
             target = 1130
         elif target == 1130:
-            s = s+1
+            s = s + 1
             if c == v * h + 1:
                 target = 1200
             else:
@@ -511,16 +511,16 @@ def doit(horizontal, vertical):
         elif target == 1200:
             target = -1
 
-    for j in range(1, v+1):
+    for j in range(1, v + 1):
         result = concat(result, '|')
-        for i in range(1, h+1):
+        for i in range(1, h + 1):
             if vArray[i][j] >= 2:
                 result = concat(result, '   ')
             else:
                 result = concat(result, '  |')
         result = concat(result, ' ')
         result = concat(result, '\n')
-        for i in range(1, h+1):
+        for i in range(1, h + 1):
             if vArray[i][j] == 0:
                 result = concat(result, '+--')
             elif vArray[i][j] == 2:
@@ -531,6 +531,6 @@ def doit(horizontal, vertical):
         result = concat(result, '\n')
     return result
 
+
 if __name__ == '__main__':
     print doit(int(os.getenv('cols', 10)), int(os.getenv('rows', 10)))
-
