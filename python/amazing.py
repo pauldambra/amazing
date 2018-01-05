@@ -29,21 +29,27 @@ def make_entry_line(h, x, result):
     return concat(entry_line, '+')
 
 
+def add_header(s):
+    s = concat(
+        s,
+        'Amazing - Copyright by Creative Computing, Morristown, NJ')
+    return println(s)
+
+
 def doit(horizontal, vertical):
 
     target = 0
     result = ''
 
-    result = concat(result, 'Amazing - Copyright by Creative Computing, Morristown, NJ')
-    result = println(result)
+    result = add_header(result)
 
     h = horizontal
     v = vertical
     if h == 1 or v == 1:
         return
 
-    wArray = [[0 for x in range(v+1)] for y in range(h+1)]
-    vArray = [[0 for x in range(v+1)] for y in range(h+1)]
+    wArray = [[0 for x in range(v + 1)] for y in range(h + 1)]
+    vArray = [[0 for x in range(v + 1)] for y in range(h + 1)]
 
     q = 0
     z = 0
@@ -55,7 +61,7 @@ def doit(horizontal, vertical):
     # 190
     c = 1
     wArray[x][1] = c
-    c = c+1
+    c = c + 1
 
     # 200
     r = x
