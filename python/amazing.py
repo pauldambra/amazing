@@ -7,11 +7,13 @@ import random
 def println(r):
     return r + '\n'
 
-def write(text, r):
+
+def concat(r, text):
     return r + text
 
+
 def rnd(count):
-    return random.randint(1, count+1)
+    return random.randint(1, count + 1)
 
 
 def make_entry_line(h, x, result):
@@ -19,19 +21,20 @@ def make_entry_line(h, x, result):
 
     for i in range(1, h + 1):
         if i == x:
-            entry_line = write('+  ', entry_line)
+            entry_line = concat(entry_line, '+  ')
         else:
-            entry_line = write('+--', entry_line)
+            entry_line = concat(entry_line, '+--')
 
     # 180
-    return write('+', entry_line)
+    return concat(entry_line, '+')
+
 
 def doit(horizontal, vertical):
 
     target = 0
     result = ''
 
-    result = write('Amazing - Copyright by Creative Computing, Morristown, NJ', result)
+    result = concat(result, 'Amazing - Copyright by Creative Computing, Morristown, NJ')
     result = println(result)
 
     h = horizontal
@@ -507,22 +510,22 @@ def doit(horizontal, vertical):
             target = -1
 
     for j in range(1, v+1):
-        result = write('|', result)
+        result = concat(result, '|')
         for i in range(1, h+1):
             if vArray[i][j] >= 2:
-                result = write('   ', result)
+                result = concat(result, '   ')
             else:
-                result = write('  |', result)
-        result = write(' ', result)
+                result = concat(result, '  |')
+        result = concat(result, ' ')
         result = println(result)
         for i in range(1, h+1):
             if vArray[i][j] == 0:
-                result = write('+--', result)
+                result = concat(result, '+--')
             elif vArray[i][j] == 2:
-                result = write('+--', result)
+                result = concat(result, '+--')
             else:
-                result = write('+  ', result)
-        result = write('+', result)
+                result = concat(result, '+  ')
+        result = concat(result, '+')
         result = println(result)
     return result
 
