@@ -10,6 +10,8 @@ ADD_SECOND_CELL_EXIT = 940
 ADD_FIRST_CELL_EXIT = 980
 ADD_SECOND_OR_THIRD_CELL_EXIT = 1020
 CHECK_IF_CAN_FINISH = 1070
+STEP_ALONG_PATH = 210
+CHECK_FOR_TURN = 270
 
 
 def concat(r, text):
@@ -49,7 +51,7 @@ def doit(max_width, max_height):
     cell_exits = [[0 for _ in range(max_height + 1)] for _ in range(max_width + 1)]
 
     found_exit = False  # whenever this is set to true x and y are the co-ords of the exit
-    z = 0
+    z = False
     entry_column = rnd(max_width)
 
     # 190
@@ -61,13 +63,11 @@ def doit(max_width, max_height):
     y = 1
 
     end = -1
-    start = 270
-
-    target = start
+    target = CHECK_FOR_TURN
 
     while target != -1:
 
-        if target == start:
+        if target == CHECK_FOR_TURN:
             cannot_go_left = x == 1 or path_something[x - 1][y] != 0
             cannot_go_up = y == 1 or path_something[x][y - 1] != 0
             cannot_go_right = x == max_width or path_something[x + 1][y] != 0
@@ -82,7 +82,7 @@ def doit(max_width, max_height):
                 target = choose_randomly(
                     WHEN_CANNOT_GO_RIGHT,
                     ADD_SECOND_CELL_EXIT, ADD_FIRST_CELL_EXIT, ADD_SECOND_OR_THIRD_CELL_EXIT)
-        elif target == 210:
+        elif target == STEP_ALONG_PATH:
             if x != max_width:
                 x = x + 1
                 target = 260
@@ -97,9 +97,9 @@ def doit(max_width, max_height):
                     target = 260
         elif target == 260:
             if path_something[x][y] == 0:
-                target = 210
+                target = STEP_ALONG_PATH
             else:
-                target = start
+                target = CHECK_FOR_TURN
         elif target == WHEN_CANNOT_GO_RIGHT:
             if y != max_height:
                 if path_something[x][y + 1] != 0:
@@ -107,7 +107,7 @@ def doit(max_width, max_height):
                 else:
                     target = 390
             else:
-                if z == 1:
+                if z:
                     target = 410
                 else:
                     found_exit = True
@@ -136,7 +136,7 @@ def doit(max_width, max_height):
                         else:
                             target = 500
                     else:
-                        if z == 1:
+                        if z:
                             target = 510
                         else:
                             found_exit = True
@@ -159,7 +159,7 @@ def doit(max_width, max_height):
                 else:
                     target = 570
             else:
-                if z == 1:
+                if z:
                     target = ADD_SECOND_CELL_EXIT
                 else:
                     found_exit = True
@@ -185,7 +185,7 @@ def doit(max_width, max_height):
                     else:
                         target = 680
                 else:
-                    if z == 1:
+                    if z:
                         target = 700
                     else:
                         found_exit = True
@@ -208,7 +208,7 @@ def doit(max_width, max_height):
                 else:
                     target = 760
             else:
-                if z == 1:
+                if z:
                     target = ADD_FIRST_CELL_EXIT
                 else:
                     found_exit = True
@@ -233,7 +233,7 @@ def doit(max_width, max_height):
                             ADD_SECOND_OR_THIRD_CELL_EXIT, 1090
                         )
                 else:
-                    if z == 1:
+                    if z:
                         target = ADD_SECOND_OR_THIRD_CELL_EXIT
                     else:
                         found_exit = True
@@ -243,12 +243,12 @@ def doit(max_width, max_height):
         elif target == 880:
             if y != max_height:
                 if path_something[x][y + 1] != 0:
-                    target = 210
+                    target = STEP_ALONG_PATH
                 else:
                     target = 1090
             else:
-                if z == 1:
-                    target = 210
+                if z:
+                    target = STEP_ALONG_PATH
                 else:
                     found_exit = True
                     print('set q... x:' + str(x) + ' y:' + str(y))
@@ -262,7 +262,7 @@ def doit(max_width, max_height):
                 target = end
             else:
                 found_exit = False
-                target = start
+                target = CHECK_FOR_TURN
         elif target == ADD_FIRST_CELL_EXIT:
             path_something[x][y - 1] = current_step
             current_step = current_step + 1
@@ -272,7 +272,7 @@ def doit(max_width, max_height):
                 target = end
             else:
                 found_exit = False
-                target = start
+                target = CHECK_FOR_TURN
         elif target == ADD_SECOND_OR_THIRD_CELL_EXIT:
             path_something[x + 1][y] = current_step
             current_step = current_step + 1
@@ -297,17 +297,16 @@ def doit(max_width, max_height):
                 otherwise there are three exits
             '''
             if found_exit:
-                z = 1
+                z = True  # only setter. setting found exit is guarded by this being false...
+                found_exit = False  # but so why do we reset this here o_O maybe should still be q
                 if cell_exits[x][y] == 0:
                     cell_exits[x][y] = 1
-                    found_exit = False
                     x = 1
                     y = 1
                     target = 260
                 else:
                     cell_exits[x][y] = 3
-                    found_exit = False
-                    target = 210
+                    target = STEP_ALONG_PATH
             else:
                 path_something[x][y + 1] = current_step
                 current_step = current_step + 1
@@ -320,7 +319,7 @@ def doit(max_width, max_height):
                 if current_step == max_height * max_width + 1:
                     target = end
                 else:
-                    target = start
+                    target = CHECK_FOR_TURN
 
     print('*******')
     for thing in path_something:
