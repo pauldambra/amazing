@@ -41,23 +41,28 @@ def doit(max_width, max_height):
     path_something = [[0 for _ in range(max_height + 1)] for _ in range(max_width + 1)]
     cell_exits = [[0 for _ in range(max_height + 1)] for _ in range(max_width + 1)]
 
-    q = 0
+    found_exit = False  # whenever this is set to true x and y are the co-ords of the exit
     z = 0
-    random_column = rnd(max_width)
+    entry_column = rnd(max_width)
 
-    result = make_entry_line(max_width, random_column, result)
+    result = make_entry_line(max_width, entry_column, result)
     result = concat(result, '\n')
 
     # 190
-    path_something[random_column][1] = 1
+    path_something[entry_column][1] = 1
     c = 2
 
     # 200
-    x = random_column
+    x = entry_column
     y = 1
 
     end = -1
     start = 270
+
+    when_cannot_go_right = 350
+    when_cannot_go_up = 430
+    when_cannot_go_left = 600
+
     add_second_cell_exit = 940
     add_first_cell_exit = 980
     add_second_or_third_cell_exit = 1020
@@ -73,14 +78,14 @@ def doit(max_width, max_height):
             cannot_go_right = x == max_width or path_something[x + 1][y] != 0
 
             if cannot_go_left:
-                target = 600
+                target = when_cannot_go_left
             elif cannot_go_up:
-                target = 430
+                target = when_cannot_go_up
             elif cannot_go_right:
-                target = 350
+                target = when_cannot_go_right
             else:
                 target = choose_randomly(
-                    350,
+                    when_cannot_go_right,
                     add_second_cell_exit, add_first_cell_exit, add_second_or_third_cell_exit)
         elif target == 210:
             if x != max_width:
@@ -100,7 +105,7 @@ def doit(max_width, max_height):
                 target = 210
             else:
                 target = start
-        elif target == 350:
+        elif target == when_cannot_go_right:
             if y != max_height:
                 if path_something[x][y + 1] != 0:
                     target = 410
@@ -110,7 +115,8 @@ def doit(max_width, max_height):
                 if z == 1:
                     target = 410
                 else:
-                    q = 1
+                    found_exit = True
+                    print('set q... x:' + str(x) + ' y:' + str(y))
                     target = 390
         elif target == 390:
             target = choose_randomly(
@@ -119,10 +125,10 @@ def doit(max_width, max_height):
             )
         elif target == 410:
             target = choose_randomly(
-                430,
+                when_cannot_go_up,
                 add_second_cell_exit, add_first_cell_exit
             )
-        elif target == 430:
+        elif target == when_cannot_go_up:
             if x == max_width:
                 target = 530
             else:
@@ -138,7 +144,8 @@ def doit(max_width, max_height):
                         if z == 1:
                             target = 510
                         else:
-                            q = 1
+                            found_exit = True
+                            print('set q... x:' + str(x) + ' y:' + str(y))
                             target = 500
         elif target == 500:
             target = choose_randomly(
@@ -160,14 +167,15 @@ def doit(max_width, max_height):
                 if z == 1:
                     target = add_second_cell_exit
                 else:
-                    q = 1
+                    found_exit = True
+                    print('set q... x:' + str(x) + ' y:' + str(y))
                     target = 570
         elif target == 570:
             target = choose_randomly(
                 add_second_cell_exit,
                 add_second_cell_exit, 1090
             )
-        elif target == 600:
+        elif target == when_cannot_go_left:
             cannot_go_up = y == 1 or path_something[x][y - 1] != 0
             cannot_go_right = x == max_width or path_something[x + 1][y] != 0
 
@@ -185,7 +193,8 @@ def doit(max_width, max_height):
                     if z == 1:
                         target = 700
                     else:
-                        q = 1
+                        found_exit = True
+                        print('set q... x:' + str(x) + ' y:' + str(y))
                         target = 680
         elif target == 680:
             target = choose_randomly(
@@ -207,7 +216,8 @@ def doit(max_width, max_height):
                 if z == 1:
                     target = add_first_cell_exit
                 else:
-                    q = 1
+                    found_exit = True
+                    print('set q... x:' + str(x) + ' y:' + str(y))
                     target = 760
         elif target == 760:
             target = choose_randomly(
@@ -231,7 +241,8 @@ def doit(max_width, max_height):
                     if z == 1:
                         target = add_second_or_third_cell_exit
                     else:
-                        q = 1
+                        found_exit = True
+                        print('set q... x:' + str(x) + ' y:' + str(y))
                         c = c + 1
                         target = 1000
         elif target == 880:
@@ -244,7 +255,8 @@ def doit(max_width, max_height):
                 if z == 1:
                     target = 210
                 else:
-                    q = 1
+                    found_exit = True
+                    print('set q... x:' + str(x) + ' y:' + str(y))
                     target = 1090
         elif target == add_second_cell_exit:
             path_something[x - 1][y] = c
@@ -254,7 +266,7 @@ def doit(max_width, max_height):
             if c == max_width * max_height + 1:
                 target = end
             else:
-                q = 0
+                found_exit = False
                 target = start
         elif target == add_first_cell_exit:
             path_something[x][y - 1] = c
@@ -264,7 +276,7 @@ def doit(max_width, max_height):
             if c == max_width * max_height + 1:
                 target = end
             else:
-                q = 0
+                found_exit = False
                 target = start
         elif target == add_second_or_third_cell_exit:
             path_something[x + 1][y] = c
@@ -281,7 +293,7 @@ def doit(max_width, max_height):
             if c == max_width * max_height + 1:
                 target = end
             else:
-                target = 600
+                target = when_cannot_go_left
         elif target == 1090:
             '''
                 so we frequently have the opportunity to jump here randomly. 
@@ -289,17 +301,17 @@ def doit(max_width, max_height):
                 if there aren't already exits we add 1 and reset x and s. 
                 otherwise there are three exits
             '''
-            if q == 1:
+            if found_exit:
                 z = 1
                 if cell_exits[x][y] == 0:
                     cell_exits[x][y] = 1
-                    q = 0
+                    found_exit = False
                     x = 1
                     y = 1
                     target = 260
                 else:
                     cell_exits[x][y] = 3
-                    q = 0
+                    found_exit = False
                     target = 210
             else:
                 path_something[x][y + 1] = c
