@@ -32,6 +32,13 @@ def add_header(s):
     return concat(s, '\n')
 
 
+def choose_randomly(default, *targets):
+    x = rnd(len(targets))
+    if x > len(targets):
+        return default
+    return targets[x - 1]
+
+
 def doit(horizontal, vertical):
 
     target = 0
@@ -71,23 +78,17 @@ def doit(horizontal, vertical):
     while target != -1:
         if target == 210:
             if r != h:
-                target = 250
+                r = r + 1
+                target = 260
             else:
                 if s != v:
-                    target = 240
+                    r = 1
+                    s = s + 1
+                    target = 260
                 else:
-                    target = 230
-        elif target == 230:
-            r = 1
-            s = 1
-            target = 260
-        elif target == 240:
-            r = 1
-            s = s + 1
-            target = 260
-        elif target == 250:
-            r = r + 1
-            target = 260
+                    r = 1
+                    s = 1
+                    target = 260
         elif target == 260:
             if wArray[r][s] == 0:
                 target = 210
@@ -112,49 +113,31 @@ def doit(horizontal, vertical):
                                 if wArray[r + 1][s] != 0:
                                     target = 350
                                 else:
-                                    x = rnd(3)
-                                    if x == 1:
-                                        target = 940
-                                    elif x == 2:
-                                        target = 980
-                                    elif x == 3:
-                                        target = 1020
-                                    else:
-                                        target = 350
+                                    target = choose_randomly(
+                                        350,
+                                        940, 980, 1020)
         elif target == 350:
             if s != v:
-                target = 380
+                if wArray[r][s + 1] != 0:
+                    target = 410
+                else:
+                    target = 390
             else:
-                target = 360
-        elif target == 360:
-            if z == 1:
-                target = 410
-            else:
-                q = 1
-                target = 390
-        elif target == 380:
-            if wArray[r][s + 1] != 0:
-                target = 410
-            else:
-                target = 390
+                if z == 1:
+                    target = 410
+                else:
+                    q = 1
+                    target = 390
         elif target == 390:
-            x = rnd(3)
-            if x == 1:
-                target = 940
-            elif x == 2:
-                target = 980
-            elif x == 3:
-                target = 1090
-            else:
-                target = 410
+            target = choose_randomly(
+                410,
+                940, 980, 1090
+            )
         elif target == 410:
-            x = rnd(2)
-            if x == 1:
-                target = 940
-            elif x == 2:
-                target = 980
-            else:
-                target = 430
+            target = choose_randomly(
+                430,
+                940, 980
+            )
         elif target == 430:
             if r == h:
                 target = 530
@@ -166,34 +149,23 @@ def doit(horizontal, vertical):
                         if wArray[r][s + 1] != 0:
                             target = 510
                         else:
-                            x = rnd(3)
                             target = 500
                     else:
                         if z == 1:
                             target = 510
                         else:
                             q = 1
-                            x = rnd(3)
                             target = 500
         elif target == 500:
-            if x == 1:
-                target = 940
-            elif x == 2:
-                target = 1020
-            elif x == 3:
-                target = 1090
-            else:
-                target = 510
+            target = choose_randomly(
+                510,
+                940, 1020, 1090
+            )
         elif target == 510:
-            x = rnd(2)
-            target = 520
-        elif target == 520:
-            if x == 1:
-                target = 940
-            elif x == 2:
-                target = 1020
-            else:
-                target = 530
+            target = choose_randomly(
+                530,
+                940, 1020
+            )
         elif target == 530:
             if s != v:
                 target = 560
@@ -211,13 +183,10 @@ def doit(horizontal, vertical):
             else:
                 target = 570
         elif target == 570:
-            x = rnd(2)
-            if x == 1:
-                target = 940
-            elif x == 2:
-                target = 1090
-            else:
-                target = 940
+            target = choose_randomly(
+                940,
+                940, 1090
+            )
         elif target == 600:
             if s - 1 == 0:
                 target = 790
@@ -249,23 +218,15 @@ def doit(horizontal, vertical):
             else:
                 target = 680
         elif target == 680:
-            x = rnd(3)
-            if x == 1:
-                target = 980
-            elif x == 2:
-                target = 1020
-            elif x == 3:
-                target = 1090
-            else:
-                target = 700
+            target = choose_randomly(
+                700,
+                980, 1020, 1090
+            )
         elif target == 700:
-            x = rnd(2)
-            if x == 1:
-                target = 980
-            elif x == 2:
-                target = 1020
-            else:
-                target = 720
+            target = choose_randomly(
+                720,
+                980, 1020
+            )
         elif target == 720:
             if s != v:
                 target = 750
@@ -281,13 +242,10 @@ def doit(horizontal, vertical):
             else:
                 target = 760
         elif target == 760:
-            x = rnd(2)
-            if x == 1:
-                target = 980
-            elif x == 2:
-                target = 1090
-            else:
-                target = 980
+            target = choose_randomly(
+                980,
+                980, 1090
+            )
         elif target == 790:
             if r == h:
                 target = 880
@@ -299,13 +257,10 @@ def doit(horizontal, vertical):
                         if wArray[r][s + 1] != 0:
                             target = 1020
                         else:
-                            x = rnd(2)
-                            if x == 1:
-                                target = 1020
-                            elif x == 2:
-                                target = 1090
-                            else:
-                                target = 1020
+                            target = choose_randomly(
+                                1020,
+                                1020, 1090
+                            )
                     else:
                         if z == 1:
                             target = 1020
