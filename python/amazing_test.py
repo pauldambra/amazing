@@ -2,6 +2,7 @@ import amazing
 import random
 import unittest
 
+
 class TestAmazing(unittest.TestCase):
 
     def testSeed0size15x20(self):

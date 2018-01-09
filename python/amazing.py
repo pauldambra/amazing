@@ -25,11 +25,8 @@ def make_entry_line(max_width, random_gate_pos, result):
     return concat(entry_line, '+')
 
 
-def add_header(s):
-    s = concat(
-        s,
-        'Amazing - Copyright by Creative Computing, Morristown, NJ')
-    return concat(s, '\n')
+def add_header():
+    return 'Amazing - Copyright by Creative Computing, Morristown, NJ\n'
 
 
 def choose_randomly(default, *targets):
@@ -41,18 +38,15 @@ def choose_randomly(default, *targets):
 
 def doit(max_width, max_height):
 
-    target = 0
-    result = ''
-
-    result = add_header(result)
+    result = add_header()
 
     h = max_width
     v = max_height
     if h == 1 or v == 1:
         return
 
-    wArray = [[0 for x in range(v + 1)] for y in range(h + 1)]
-    vArray = [[0 for x in range(v + 1)] for y in range(h + 1)]
+    w_array = [[0 for _ in range(v + 1)] for _ in range(h + 1)]
+    v_array = [[0 for _ in range(v + 1)] for _ in range(h + 1)]
 
     q = 0
     z = 0
@@ -62,9 +56,8 @@ def doit(max_width, max_height):
     result = concat(result, '\n')
 
     # 190
-    c = 1
-    wArray[x][1] = c
-    c = c + 1
+    w_array[x][1] = 1
+    c = 2
 
     # 200
     r = x
@@ -90,7 +83,7 @@ def doit(max_width, max_height):
                     s = 1
                     target = 260
         elif target == 260:
-            if wArray[r][s] == 0:
+            if w_array[r][s] == 0:
                 target = 210
             else:
                 target = start
@@ -98,19 +91,19 @@ def doit(max_width, max_height):
             if r - 1 == 0:
                 target = 600
             else:
-                if wArray[r - 1][s] != 0:
+                if w_array[r - 1][s] != 0:
                     target = 600
                 else:
                     if s - 1 == 0:
                         target = 430
                     else:
-                        if wArray[r][s - 1] != 0:
+                        if w_array[r][s - 1] != 0:
                             target = 430
                         else:
                             if r == h:
                                 target = 350
                             else:
-                                if wArray[r + 1][s] != 0:
+                                if w_array[r + 1][s] != 0:
                                     target = 350
                                 else:
                                     target = choose_randomly(
@@ -118,7 +111,7 @@ def doit(max_width, max_height):
                                         940, 980, 1020)
         elif target == 350:
             if s != v:
-                if wArray[r][s + 1] != 0:
+                if w_array[r][s + 1] != 0:
                     target = 410
                 else:
                     target = 390
@@ -142,11 +135,11 @@ def doit(max_width, max_height):
             if r == h:
                 target = 530
             else:
-                if wArray[r + 1][s] != 0:
+                if w_array[r + 1][s] != 0:
                     target = 530
                 else:
                     if s != v:
-                        if wArray[r][s + 1] != 0:
+                        if w_array[r][s + 1] != 0:
                             target = 510
                         else:
                             target = 500
@@ -178,7 +171,7 @@ def doit(max_width, max_height):
                 q = 1
                 target = 570
         elif target == 560:
-            if wArray[r][s + 1] != 0:
+            if w_array[r][s + 1] != 0:
                 target = 940
             else:
                 target = 570
@@ -191,17 +184,17 @@ def doit(max_width, max_height):
             if s - 1 == 0:
                 target = 790
             else:
-                if wArray[r][s - 1] != 0:
+                if w_array[r][s - 1] != 0:
                     target = 790
                 else:
                     if r == h:
                         target = 720
                     else:
-                        if wArray[r + 1][s] != 0:
+                        if w_array[r + 1][s] != 0:
                             target = 720
                         else:
                             if s != v:
-                                if wArray[r][s + 1] != 0:
+                                if w_array[r][s + 1] != 0:
                                     target = 700
                                 else:
                                     target = 680
@@ -223,7 +216,7 @@ def doit(max_width, max_height):
             )
         elif target == 720:
             if s != v:
-                if wArray[r][s + 1] != 0:
+                if w_array[r][s + 1] != 0:
                     target = 980
                 else:
                     target = 760
@@ -242,11 +235,11 @@ def doit(max_width, max_height):
             if r == h:
                 target = 880
             else:
-                if wArray[r + 1][s] != 0:
+                if w_array[r + 1][s] != 0:
                     target = 880
                 else:
                     if s != v:
-                        if wArray[r][s + 1] != 0:
+                        if w_array[r][s + 1] != 0:
                             target = 1020
                         else:
                             target = choose_randomly(
@@ -262,7 +255,7 @@ def doit(max_width, max_height):
                             target = 1000
         elif target == 880:
             if s != v:
-                if wArray[r][s + 1] != 0:
+                if w_array[r][s + 1] != 0:
                     target = 210
                 else:
                     target = 1090
@@ -273,9 +266,9 @@ def doit(max_width, max_height):
                     q = 1
                     target = 1090
         elif target == 940:
-            wArray[r - 1][s] = c
+            w_array[r - 1][s] = c
             c = c + 1
-            vArray[r - 1][s] = 2
+            v_array[r - 1][s] = 2
             r = r - 1
             if c == h * v + 1:
                 target = end
@@ -283,11 +276,11 @@ def doit(max_width, max_height):
                 q = 0
                 target = start
         elif target == 980:
-            wArray[r][s - 1] = c
+            w_array[r][s - 1] = c
             c = c + 1
             target = 1000
         elif target == 1000:
-            vArray[r][s - 1] = 1
+            v_array[r][s - 1] = 1
             s = s - 1
             if c == h * v + 1:
                 target = end
@@ -295,14 +288,14 @@ def doit(max_width, max_height):
                 q = 0
                 target = start
         elif target == 1020:
-            wArray[r + 1][s] = c
+            w_array[r + 1][s] = c
             c = c + 1
-            if vArray[r][s] == 0:
-                vArray[r][s] = 2
+            if v_array[r][s] == 0:
+                v_array[r][s] = 2
                 r = r + 1
                 target = 1070
             else:
-                vArray[r][s] = 3
+                v_array[r][s] = 3
                 r = r + 1
                 target = 1070
         elif target == 1070:
@@ -313,23 +306,23 @@ def doit(max_width, max_height):
         elif target == 1090:
             if q == 1:
                 z = 1
-                if vArray[r][s] == 0:
-                    vArray[r][s] = 1
+                if v_array[r][s] == 0:
+                    v_array[r][s] = 1
                     q = 0
                     r = 1
                     s = 1
                     target = 260
                 else:
-                    vArray[r][s] = 3
+                    v_array[r][s] = 3
                     q = 0
                     target = 210
             else:
-                wArray[r][s + 1] = c
+                w_array[r][s + 1] = c
                 c = c + 1
-                if vArray[r][s] == 0:
-                    vArray[r][s] = 1
+                if v_array[r][s] == 0:
+                    v_array[r][s] = 1
                 else:
-                    vArray[r][s] = 3
+                    v_array[r][s] = 3
 
                 s = s + 1
                 if c == v * h + 1:
@@ -340,16 +333,16 @@ def doit(max_width, max_height):
     for rowIndex in range(1, v + 1):
         result = concat(result, '|')
         for i in range(1, h + 1):
-            if vArray[i][rowIndex] >= 2:
+            if v_array[i][rowIndex] >= 2:
                 result = concat(result, '   ')
             else:
                 result = concat(result, '  |')
         result = concat(result, ' ')
         result = concat(result, '\n')
         for i in range(1, h + 1):
-            if vArray[i][rowIndex] == 0:
+            if v_array[i][rowIndex] == 0:
                 result = concat(result, '+--')
-            elif vArray[i][rowIndex] == 2:
+            elif v_array[i][rowIndex] == 2:
                 result = concat(result, '+--')
             else:
                 result = concat(result, '+  ')
