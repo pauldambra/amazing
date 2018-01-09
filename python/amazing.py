@@ -12,11 +12,11 @@ def rnd(count):
     return random.randint(1, count + 1)
 
 
-def make_entry_line(h, x, result):
+def make_entry_line(max_width, random_gate_pos, result):
     entry_line = result
 
-    for i in range(1, h + 1):
-        if i == x:
+    for i in range(1, max_width + 1):
+        if i == random_gate_pos:
             entry_line = concat(entry_line, '+  ')
         else:
             entry_line = concat(entry_line, '+--')
@@ -39,15 +39,15 @@ def choose_randomly(default, *targets):
     return targets[x - 1]
 
 
-def doit(horizontal, vertical):
+def doit(max_width, max_height):
 
     target = 0
     result = ''
 
     result = add_header(result)
 
-    h = horizontal
-    v = vertical
+    h = max_width
+    v = max_height
     if h == 1 or v == 1:
         return
 
@@ -191,32 +191,26 @@ def doit(horizontal, vertical):
             if s - 1 == 0:
                 target = 790
             else:
-                target = 610
-        elif target == 610:
-            if wArray[r][s - 1] != 0:
-                target = 790
-            else:
-                if r == h:
-                    target = 720
+                if wArray[r][s - 1] != 0:
+                    target = 790
                 else:
-                    target = 630
-        elif target == 630:
-            if wArray[r + 1][s] != 0:
-                target = 720
-            else:
-                if s != v:
-                    target = 670
-                else:
-                    if z == 1:
-                        target = 700
+                    if r == h:
+                        target = 720
                     else:
-                        q = 1
-                        target = 680
-        elif target == 670:
-            if wArray[r][s + 1] != 0:
-                target = 700
-            else:
-                target = 680
+                        if wArray[r + 1][s] != 0:
+                            target = 720
+                        else:
+                            if s != v:
+                                if wArray[r][s + 1] != 0:
+                                    target = 700
+                                else:
+                                    target = 680
+                            else:
+                                if z == 1:
+                                    target = 700
+                                else:
+                                    q = 1
+                                    target = 680
         elif target == 680:
             target = choose_randomly(
                 700,
@@ -229,18 +223,16 @@ def doit(horizontal, vertical):
             )
         elif target == 720:
             if s != v:
-                target = 750
+                if wArray[r][s + 1] != 0:
+                    target = 980
+                else:
+                    target = 760
             else:
                 if z == 1:
                     target = 980
                 else:
                     q = 1
                     target = 760
-        elif target == 750:
-            if wArray[r][s + 1] != 0:
-                target = 980
-            else:
-                target = 760
         elif target == 760:
             target = choose_randomly(
                 980,
@@ -345,19 +337,19 @@ def doit(horizontal, vertical):
                 else:
                     target = start
 
-    for j in range(1, v + 1):
+    for rowIndex in range(1, v + 1):
         result = concat(result, '|')
         for i in range(1, h + 1):
-            if vArray[i][j] >= 2:
+            if vArray[i][rowIndex] >= 2:
                 result = concat(result, '   ')
             else:
                 result = concat(result, '  |')
         result = concat(result, ' ')
         result = concat(result, '\n')
         for i in range(1, h + 1):
-            if vArray[i][j] == 0:
+            if vArray[i][rowIndex] == 0:
                 result = concat(result, '+--')
-            elif vArray[i][j] == 2:
+            elif vArray[i][rowIndex] == 2:
                 result = concat(result, '+--')
             else:
                 result = concat(result, '+  ')
